@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useStore } from "@/store";
 import { cn } from "@/lib/utils";
+import { StreakBadge } from "@/components/shared/StreakBadge";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -67,6 +68,7 @@ export default function Navbar() {
               <Link href="/pricing" className="text-sm text-gray-600 hover:text-primary transition-colors">Pricing</Link>
             </div>
             <div className="flex items-center space-x-3">
+              <StreakBadge />
               <Link href="/login">
                 <Button variant="ghost" size="sm">Log In</Button>
               </Link>
@@ -119,6 +121,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center space-x-3">
+              <StreakBadge />
               <div className="hidden sm:flex relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input

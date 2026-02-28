@@ -12,6 +12,7 @@ import {
   ExternalLink,
   ShoppingBag,
   AlertCircle,
+  ThumbsUp,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +21,53 @@ import { Post } from "@/types";
 import { useStore } from "@/store";
 import { cn, formatNumber, formatDate, getInitials } from "@/lib/utils";
 import toast from "react-hot-toast";
+
+interface Comment {
+  id: string;
+  username: string;
+  avatar: string;
+  content: string;
+  timestamp: Date;
+  likes: number;
+  isLiked: boolean;
+}
+
+function formatRelativeTime(date: Date): string {
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHr = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHr / 24);
+  const diffWeek = Math.floor(diffDay / 7);
+
+  if (diffSec < 60) return "just now";
+  if (diffMin < 60) return `${diffMin}m ago`;
+  if (diffHr < 24) return `${diffHr}h ago`;
+  if (diffDay < 7) return `${diffDay}d ago`;
+  return `${diffWeek}w ago`;
+}
+
+const INITIAL_COMMENTS: Comment[] = [
+  {
+    id: "initial-1",
+    username: "emmavogue",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50",
+    content: "Obsessed with this look! Where is the jacket from?",
+    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2h ago
+    likes: 3,
+    isLiked: false,
+  },
+  {
+    id: "initial-2",
+    username: "miafashion",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=50",
+    content: "This is giving main character energy",
+    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4h ago
+    likes: 7,
+    isLiked: false,
+  },
+];
 
 interface PostCardProps {
   post: Post;
@@ -32,6 +80,8 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
   const [commentText, setCommentText] = useState("");
   const [showAffiliateItems, setShowAffiliateItems] = useState(false);
   const [doubleClickLike, setDoubleClickLike] = useState(false);
+  const [comments, setComments] = useState<Comment[]>(INITIAL_COMMENTS);
+  const [commentCount, setCommentCount] = useState(post.comment_count);
 
   const handleDoubleClick = () => {
     if (!post.is_liked) {
@@ -49,9 +99,30 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
   const handleComment = (e: React.FormEvent) => {
     e.preventDefault();
     if (commentText.trim()) {
-      toast.success("Comment posted!");
+      const newComment: Comment = {
+        id: `comment-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+        username: "you",
+        avatar: "",
+        content: commentText.trim(),
+        timestamp: new Date(),
+        likes: 0,
+        isLiked: false,
+      };
+      setComments((prev) => [...prev, newComment]);
+      setCommentCount((prev) => prev + 1);
       setCommentText("");
+      toast.success("Comment posted!");
     }
+  };
+
+  const handleCommentLike = (commentId: string) => {
+    setComments((prev) =>
+      prev.map((c) =>
+        c.id === commentId
+          ? { ...c, isLiked: !c.isLiked, likes: c.isLiked ? c.likes - 1 : c.likes + 1 }
+          : c
+      )
+    );
   };
 
   if (compact) {
@@ -221,7 +292,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
       <div className="px-4 pb-2">
         <div className="flex items-center space-x-4 text-sm">
           <span className="font-semibold">{formatNumber(post.like_count)} likes</span>
-          <span className="text-gray-400">{formatNumber(post.comment_count)} comments</span>
+          <span className="text-gray-400">{formatNumber(commentCount)} comments</span>
           <span className="text-gray-400">{formatNumber(post.save_count)} saves</span>
         </div>
       </div>
@@ -299,33 +370,43 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
             className="overflow-hidden border-t border-gray-100"
           >
             <div className="p-4">
-              <div className="space-y-3 mb-4">
-                <div className="flex items-start space-x-2">
-                  <Avatar className="h-7 w-7">
-                    <AvatarImage src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50" />
-                    <AvatarFallback>EC</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm">
-                      <span className="font-semibold mr-1">emmavogue</span>
-                      Obsessed with this look! Where is the jacket from?
-                    </p>
-                    <span className="text-xs text-gray-400">2h ago</span>
+              <div className="space-y-3 mb-4 max-h-64 overflow-y-auto">
+                {comments.map((comment) => (
+                  <div key={comment.id} className="flex items-start space-x-2">
+                    <Avatar className="h-7 w-7">
+                      {comment.avatar ? (
+                        <AvatarImage src={comment.avatar} />
+                      ) : null}
+                      <AvatarFallback className="text-[10px]">
+                        {getInitials(comment.username)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm">
+                        <span className="font-semibold mr-1">{comment.username}</span>
+                        {comment.content}
+                      </p>
+                      <div className="flex items-center space-x-3 mt-0.5">
+                        <span className="text-xs text-gray-400">
+                          {formatRelativeTime(comment.timestamp)}
+                        </span>
+                        <button
+                          onClick={() => handleCommentLike(comment.id)}
+                          className={cn(
+                            "flex items-center space-x-1 text-xs transition-colors",
+                            comment.isLiked ? "text-primary font-medium" : "text-gray-400 hover:text-gray-600"
+                          )}
+                        >
+                          <ThumbsUp className={cn("w-3 h-3", comment.isLiked && "fill-primary")} />
+                          {comment.likes > 0 && <span>{comment.likes}</span>}
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <Avatar className="h-7 w-7">
-                    <AvatarImage src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=50" />
-                    <AvatarFallback>MR</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm">
-                      <span className="font-semibold mr-1">miafashion</span>
-                      This is giving main character energy
-                    </p>
-                    <span className="text-xs text-gray-400">4h ago</span>
-                  </div>
-                </div>
+                ))}
+                {comments.length === 0 && (
+                  <p className="text-sm text-gray-400 text-center py-2">No comments yet. Be the first!</p>
+                )}
               </div>
               <form onSubmit={handleComment} className="flex items-center space-x-2">
                 <input
