@@ -23,6 +23,9 @@ import {
   Heart,
   Palette,
   Calendar,
+  BarChart3,
+  Package,
+  ImageIcon,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -47,9 +50,9 @@ export default function Navbar() {
     { href: "/explore", label: "Explore", icon: Compass },
     { href: "/closet", label: "Closet", icon: Shirt },
     { href: "/outfits", label: "Outfits", icon: Sparkles },
-    { href: "/quiz", label: "Style Quiz", icon: Palette },
-    { href: "/calendar", label: "Calendar", icon: Calendar },
-    { href: "/shop", label: "Shop", icon: ShoppingBag },
+    { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/capsule", label: "Capsule", icon: Package },
+    { href: "/moodboard", label: "Mood Board", icon: ImageIcon },
     { href: "/challenges", label: "Challenges", icon: Trophy },
   ];
 
@@ -189,6 +192,11 @@ export default function Navbar() {
                         <Link href="/closet" onClick={() => setProfileDropdownOpen(false)}>
                           <button className="flex items-center space-x-3 w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
                             <Shirt className="w-4 h-4" /> <span>My Closet</span>
+                          </button>
+                        </Link>
+                        <Link href="/analytics" onClick={() => setProfileDropdownOpen(false)}>
+                          <button className="flex items-center space-x-3 w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
+                            <BarChart3 className="w-4 h-4" /> <span>Analytics</span>
                           </button>
                         </Link>
                         <Link href="/earnings" onClick={() => setProfileDropdownOpen(false)}>

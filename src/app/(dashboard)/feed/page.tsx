@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PostCard from "@/components/feed/PostCard";
+import XPBar from "@/components/shared/XPBar";
+import StyleDNA from "@/components/features/style-dna";
+import OOTDStreak from "@/components/features/ootd-streak";
+import WeeklyChallenge from "@/components/features/weekly-challenge";
+import OutfitPlanner from "@/components/features/outfit-planner";
+import SeasonalReportSection from "@/components/features/seasonal-report";
 import { useStore } from "@/store";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -33,6 +39,11 @@ export default function FeedPage() {
         <div className="grid lg:grid-cols-[1fr_320px] gap-8">
           {/* Main Feed */}
           <div>
+            {/* XP Bar */}
+            <div className="mb-4">
+              <XPBar />
+            </div>
+
             {/* Tabs */}
             <div className="flex items-center space-x-1 mb-6 bg-white rounded-2xl p-1.5 shadow-sm border border-gray-100">
               <button
@@ -123,6 +134,21 @@ export default function FeedPage() {
 
           {/* Sidebar */}
           <div className="hidden lg:block space-y-6">
+            {/* Style DNA Summary */}
+            <StyleDNA />
+
+            {/* OOTD Streak */}
+            <OOTDStreak />
+
+            {/* Weekly Challenge */}
+            <WeeklyChallenge />
+
+            {/* Outfit Planner */}
+            <OutfitPlanner />
+
+            {/* Seasonal Report */}
+            <SeasonalReportSection />
+
             {/* Suggested Users */}
             <div className="bg-white rounded-2xl border border-gray-100 p-5">
               <h3 className="font-sora font-semibold text-sm mb-4">Suggested for You</h3>
@@ -160,25 +186,6 @@ export default function FeedPage() {
                   </Badge>
                 ))}
               </div>
-            </div>
-
-            {/* Active Challenge */}
-            <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-5 text-white">
-              <div className="flex items-center space-x-2 mb-3">
-                <Sparkles className="w-5 h-5" />
-                <h3 className="font-sora font-semibold text-sm">Active Challenge</h3>
-              </div>
-              <p className="font-semibold text-lg mb-1">Winter Wonderland</p>
-              <p className="text-white/80 text-sm mb-4">Show us your best cold-weather outfit!</p>
-              <div className="flex items-center justify-between text-sm mb-3">
-                <span className="text-white/60">234 entries</span>
-                <span className="text-white/60">12 days left</span>
-              </div>
-              <Link href="/challenges">
-                <Button className="w-full bg-white text-primary hover:bg-white/90" size="sm">
-                  Enter Challenge
-                </Button>
-              </Link>
             </div>
 
             {/* Footer Links */}

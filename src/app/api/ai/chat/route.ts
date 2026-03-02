@@ -8,7 +8,7 @@ const anthropic = new Anthropic({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { message, context } = body;
+    const { message, context, styleDNAContext } = body;
 
     if (!message) {
       return NextResponse.json({ error: "Message required" }, { status: 400 });
@@ -17,6 +17,10 @@ export async function POST(req: NextRequest) {
     const closetContext = context
       ? `The user's closet contains: ${JSON.stringify(context)}. Use this information to give personalized advice.`
       : "The user hasn't shared their closet details yet. Give general fashion advice and ask about their wardrobe.";
+
+    const dnaContext = styleDNAContext
+      ? `\n\nSTYLE DNA PROFILE (learned preferences from user behavior):\n${styleDNAContext}\n\nUse this Style DNA to personalize suggestions. The more data available, the more specific and accurate your advice should be.`
+      : "";
 
     const response = await anthropic.messages.create({
       model: "claude-sonnet-4-20250514",
@@ -30,7 +34,7 @@ export async function POST(req: NextRequest) {
 
 Be conversational, enthusiastic about fashion, and give specific actionable advice. Keep responses concise (2-3 paragraphs max).
 
-${closetContext}`,
+${closetContext}${dnaContext}`,
       messages: [
         {
           role: "user",
