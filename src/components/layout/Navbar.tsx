@@ -21,6 +21,8 @@ import {
   Settings,
   LogOut,
   Heart,
+  Palette,
+  Calendar,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -45,6 +47,8 @@ export default function Navbar() {
     { href: "/explore", label: "Explore", icon: Compass },
     { href: "/closet", label: "Closet", icon: Shirt },
     { href: "/outfits", label: "Outfits", icon: Sparkles },
+    { href: "/quiz", label: "Style Quiz", icon: Palette },
+    { href: "/calendar", label: "Calendar", icon: Calendar },
     { href: "/shop", label: "Shop", icon: ShoppingBag },
     { href: "/challenges", label: "Challenges", icon: Trophy },
   ];
@@ -65,6 +69,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center space-x-8">
               <Link href="#features" className="text-sm text-gray-600 hover:text-primary transition-colors">Features</Link>
               <Link href="#how-it-works" className="text-sm text-gray-600 hover:text-primary transition-colors">How it Works</Link>
+              <Link href="/quiz" className="text-sm text-gray-600 hover:text-primary transition-colors">Style Quiz</Link>
               <Link href="/pricing" className="text-sm text-gray-600 hover:text-primary transition-colors">Pricing</Link>
             </div>
             <div className="flex items-center space-x-3">

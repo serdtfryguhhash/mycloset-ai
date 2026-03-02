@@ -19,11 +19,14 @@ import {
   Eye,
   DollarSign,
   ChevronRight,
+  Palette,
+  Calendar,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Footer from "@/components/layout/Footer";
+import WeatherSuggestions from "@/components/landing/WeatherSuggestions";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -393,6 +396,52 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Interactive Tools Banner */}
+      <section className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Link href="/quiz">
+                <Card className="p-8 h-full bg-gradient-to-br from-primary/5 to-secondary/5 border-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-4">
+                    <Palette className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-sora font-semibold mb-2">Discover Your Style DNA</h3>
+                  <p className="text-gray-500 mb-4">Take our 5-step style quiz and get personalized outfit recommendations tailored to your aesthetic.</p>
+                  <span className="inline-flex items-center text-primary font-medium text-sm group-hover:gap-2 transition-all">
+                    Take the Quiz <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Card>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <Link href="/calendar">
+                <Card className="p-8 h-full bg-gradient-to-br from-secondary/5 to-accent/5 border-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-secondary to-accent flex items-center justify-center mb-4">
+                    <Calendar className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-sora font-semibold mb-2">Plan Your Outfit Calendar</h3>
+                  <p className="text-gray-500 mb-4">Organize your outfits for the week ahead. Never stress about what to wear again.</p>
+                  <span className="inline-flex items-center text-secondary font-medium text-sm group-hover:gap-2 transition-all">
+                    Open Calendar <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Card>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -433,6 +482,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Weather-Based Suggestions */}
+      <WeatherSuggestions />
 
       {/* CTA */}
       <section className="py-24 bg-gradient-to-r from-primary to-secondary">
