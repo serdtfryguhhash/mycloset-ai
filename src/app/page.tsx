@@ -411,7 +411,7 @@ export default function LandingPage() {
                     <Palette className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-xl font-sora font-semibold mb-2">Discover Your Style DNA</h3>
-                  <p className="text-gray-500 mb-4">Take our 5-step style quiz and get personalized outfit recommendations tailored to your aesthetic.</p>
+                  <p className="text-gray-500 mb-4">Take our 6-step style quiz and get personalized outfit recommendations tailored to your aesthetic.</p>
                   <span className="inline-flex items-center text-primary font-medium text-sm group-hover:gap-2 transition-all">
                     Take the Quiz <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </span>

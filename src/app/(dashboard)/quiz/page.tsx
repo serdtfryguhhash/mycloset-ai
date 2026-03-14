@@ -93,14 +93,14 @@ const quizSteps: QuizStep[] = [
   {
     id: 4,
     title: "What's your fashion budget?",
-    subtitle: "No judgment -- just helps us tailor suggestions",
+    subtitle: "No judgment, just helps us tailor suggestions",
     icon: DollarSign,
     type: "single",
     options: [
-      { id: "thrifty", label: "Thrifty", emoji: "🏷️", description: "Under $50 per piece -- thrift & fast fashion", gradient: "from-green-400 to-emerald-500" },
-      { id: "moderate", label: "Moderate", emoji: "💳", description: "$50-$150 per piece -- quality basics", gradient: "from-blue-400 to-indigo-500" },
-      { id: "premium", label: "Premium", emoji: "👜", description: "$150-$500 per piece -- designer-adjacent", gradient: "from-purple-500 to-pink-500" },
-      { id: "luxury", label: "Luxury", emoji: "💎", description: "$500+ per piece -- high-end designer", gradient: "from-amber-400 to-yellow-500" },
+      { id: "thrifty", label: "Thrifty", emoji: "🏷️", description: "Under $50 per piece, thrift & fast fashion", gradient: "from-green-400 to-emerald-500" },
+      { id: "moderate", label: "Moderate", emoji: "💳", description: "$50-$150 per piece, quality basics", gradient: "from-blue-400 to-indigo-500" },
+      { id: "premium", label: "Premium", emoji: "👜", description: "$150-$500 per piece, designer-adjacent", gradient: "from-purple-500 to-pink-500" },
+      { id: "luxury", label: "Luxury", emoji: "💎", description: "$500+ per piece, high-end designer", gradient: "from-amber-400 to-yellow-500" },
       { id: "mix", label: "Mix & Match", emoji: "🎯", description: "Invest in staples, save on trends", gradient: "from-pink-400 to-orange-400" },
     ],
   },
@@ -117,6 +117,21 @@ const quizSteps: QuizStep[] = [
       { id: "rectangle", label: "Rectangle", emoji: "📐", description: "Balanced proportions, less defined waist", gradient: "from-blue-400 to-indigo-500" },
       { id: "inverted", label: "Inverted Triangle", emoji: "🔻", description: "Broader shoulders, narrower hips", gradient: "from-purple-400 to-violet-500" },
       { id: "skip", label: "Prefer Not to Say", emoji: "🙂", description: "That's totally fine, we'll keep it general", gradient: "from-gray-400 to-gray-500" },
+    ],
+  },
+  {
+    id: 6,
+    title: "Who is your style icon?",
+    subtitle: "Pick the fashion energy you admire most",
+    icon: Star,
+    type: "single",
+    options: [
+      { id: "classic-icon", label: "Audrey Hepburn", emoji: "🎬", description: "Timeless elegance and understated glamour", gradient: "from-stone-500 to-stone-700" },
+      { id: "modern-chic", label: "Zendaya", emoji: "💫", description: "Bold, fashion-forward, and fearless", gradient: "from-purple-500 to-pink-500" },
+      { id: "street-cool", label: "Rihanna", emoji: "🔥", description: "Rule-breaking, edgy, unapologetic", gradient: "from-red-500 to-orange-500" },
+      { id: "effortless", label: "Jennifer Aniston", emoji: "☀️", description: "Casual sophistication, easy-going style", gradient: "from-amber-400 to-yellow-500" },
+      { id: "maximalist", label: "Harry Styles", emoji: "🌈", description: "Gender-fluid, eclectic, boundary-pushing", gradient: "from-pink-400 to-blue-400" },
+      { id: "refined", label: "David Beckham", emoji: "⚽", description: "Sharp tailoring meets sporty confidence", gradient: "from-gray-600 to-blue-700" },
     ],
   },
 ];
@@ -313,7 +328,7 @@ export default function StyleQuizPage() {
           </h1>
           {!isComplete && (
             <p className="mt-3 text-gray-500 max-w-lg mx-auto">
-              Take our 5-step quiz and unlock personalized outfit recommendations tailored just for you.
+              Take our 6-step quiz and unlock personalized outfit recommendations tailored just for you.
             </p>
           )}
         </div>
@@ -475,6 +490,7 @@ export default function StyleQuizPage() {
                     answers[1]?.[0],
                     ...(answers[2] || []),
                     answers[3]?.[0],
+                    answers[6]?.[0],
                   ]
                     .filter(Boolean)
                     .map((tag) => (
